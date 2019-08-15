@@ -197,7 +197,9 @@ namespace CANBUSTestFour
                 statusText.Text = action + " failed: " + errorText;
             }
             else
+            {
                 statusText.Text = action + " succeeded";
+            }
         }
 
     }
