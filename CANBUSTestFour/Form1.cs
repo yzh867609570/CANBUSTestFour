@@ -23,6 +23,17 @@ namespace CANBUSTestFour
         {
             InitializeComponent();
 
+            idBox.Text = "318";
+            DLCBox.Text = "8";
+            dataBox0.Text = "02";
+            dataBox1.Text = "00";
+            dataBox2.Text = "00";
+            dataBox3.Text = "00";
+            dataBox4.Text = "00";
+            dataBox5.Text = "00";
+            dataBox6.Text = "00";
+            dataBox7.Text = "00";
+
             //Sets up a BackgroundWorker and adds delegates to 
             //the DumpMessageLoop and ProcessMessage methods
             dumper = new BackgroundWorker();
@@ -59,6 +70,8 @@ namespace CANBUSTestFour
             int bitrate = bitrates[bitrateText.SelectedIndex];
 
             Canlib.canStatus status = Canlib.canSetBusParams(handle, bitrate, 0, 0, 0, 0, 0);
+
+            //Canlib.canStatus status = Canlib.canSetBitrate(handle, bitrate);
 
             CheckStatus("Setting bitrate to " + bitrateText.SelectedValue, status);
         }
@@ -97,7 +110,7 @@ namespace CANBUSTestFour
         //Reads message data from user input and writes a message to the channel
         private void sendMessage_Button_Click(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(idBox.Text);
+            int id = Convert.ToInt32(idBox.Text, 16);
 
             TextBox[] textBoxes = {dataBox0, dataBox1, dataBox2, dataBox3, dataBox4,
                                       dataBox5, dataBox6, dataBox7};
@@ -114,7 +127,8 @@ namespace CANBUSTestFour
             string msg = String.Format("{0}  {1}  {2:x2} {3:x2} {4:x2} {5:x2} {6:x2} {7:x2} {8:x2} {9:x2}   to handle {10}",
                                              id, dlc, data[0], data[1], data[2], data[3], data[4],
                                              data[5], data[6], data[7], handle);
-            Canlib.canStatus status = Canlib.canWrite(handle, id, data, dlc, flags);
+            //Canlib.canStatus status = Canlib.canWrite(handle, id, data, dlc, Canlib.canMSG_STD);
+            Canlib.canStatus status = Canlib.canWriteWait(handle, id, data, dlc, flags, 5000);
             CheckStatus("Writing message " + msg, status);
         }
 
