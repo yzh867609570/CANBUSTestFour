@@ -130,6 +130,36 @@ namespace CANBUSTestFour
             //Canlib.canStatus status = Canlib.canWrite(handle, id, data, dlc, Canlib.canMSG_STD);
             Canlib.canStatus status = Canlib.canWriteWait(handle, id, data, dlc, flags, 5000);
             CheckStatus("Writing message " + msg, status);
+
+            #region 接收指定ID报文
+            BackgroundWorker worker = sender as BackgroundWorker;
+            var message = new byte[8];
+            var msgRS = "";
+
+            status = Canlib.canReadSpecific(handle, id, message, out int dlcRS, out int flagRS, out long timeRS);
+            CheckStatus("ReadSpecific " + message, status);
+
+            if (status == Canlib.canStatus.canOK)
+            {
+                if ((flagRS & Canlib.canMSG_ERROR_FRAME) == Canlib.canMSG_ERROR_FRAME)
+                {
+                    msgRS = "ERROR FRAME RECEIVED" + Environment.NewLine;
+                }
+                else
+                {
+                    msgRS = string.Format("{0}  {1}  {2:x2} {3:x2} {4:x2} {5:x2} {6:x2} {7:x2} {8:x2} {9:x2}   {10}\r" + Environment.NewLine,
+                                             id, dlcRS, message[0], message[1], message[2], message[3], message[4],
+                                             message[5], message[6], message[7], timeRS);
+                }
+                //Sends the message to the ProcessMessage method
+                worker.ReportProgress(1, msgRS);
+            }
+            else if (status != Canlib.canStatus.canERR_NOMSG)
+            {
+                //Sends the error status to the ProcessMessage method and breaks the loop
+                worker.ReportProgress(100, status);
+            }
+            #endregion
         }
 
         /*
@@ -171,7 +201,6 @@ namespace CANBUSTestFour
                     //Sends the message to the ProcessMessage method
                     worker.ReportProgress(0, msg);
                 }
-
                 else if (status != Canlib.canStatus.canERR_NOMSG)
                 {
                     //Sends the error status to the ProcessMessage method and breaks the loop
@@ -192,6 +221,12 @@ namespace CANBUSTestFour
                 string output = (string)e.UserState;
                 outputBox.AppendText(output);
                 //outputBox.ScrollToEnd();
+            }
+            else if (e.ProgressPercentage == 1)//接收指定ID报文
+            {
+                string output = (string)e.UserState;
+                readSpecificBox.AppendText(output);
+                //readSpecificBox.ScrollToEnd();
             }
             else
             {
