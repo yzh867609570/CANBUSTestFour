@@ -56,6 +56,9 @@
     <Reference Include="canlibCLSNET">
       <HintPath>E:\Program Files (x86)\Kvaser\Canlib\dotnet\x64\fw40\canlibCLSNET.dll</HintPath>
     </Reference>
+    <Reference Include="kvadblibCLSNET">
+      <HintPath>E:\Program Files (x86)\Kvaser\Canlib\dotnet\x64\fw40\kvadblibCLSNET.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DumpMessage.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

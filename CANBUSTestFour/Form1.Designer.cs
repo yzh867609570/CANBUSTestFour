@@ -56,7 +56,6 @@
             this.flagsBox = new System.Windows.Forms.TextBox();
             this.sendMessage_Button = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.readSpecificBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // init_Button
@@ -304,20 +303,11 @@
             this.label6.TabIndex = 28;
             this.label6.Text = "Received messages:";
             // 
-            // readSpecificBox
-            // 
-            this.readSpecificBox.Location = new System.Drawing.Point(146, 322);
-            this.readSpecificBox.Name = "readSpecificBox";
-            this.readSpecificBox.ReadOnly = true;
-            this.readSpecificBox.Size = new System.Drawing.Size(495, 21);
-            this.readSpecificBox.TabIndex = 29;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(669, 647);
-            this.Controls.Add(this.readSpecificBox);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.sendMessage_Button);
             this.Controls.Add(this.flagsBox);
@@ -383,7 +373,6 @@
         private System.Windows.Forms.TextBox flagsBox;
         private System.Windows.Forms.Button sendMessage_Button;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox readSpecificBox;
     }
 }
 
